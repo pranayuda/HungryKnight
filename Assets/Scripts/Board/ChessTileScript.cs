@@ -2,11 +2,29 @@ using UnityEngine;
 
 public class ChessTileScript : MonoBehaviour
 {
-    public Vector2Int GridPosition { get; private set; }
+    public Vector2Int gridPosition;
 
-    public void Init(Vector2Int gridPos, Color color)
+    [SerializeField] private GameObject moveIndicator;
+
+    public void Init(Vector2Int pos, Color color)
     {
-        GridPosition = gridPos;
+        gridPosition = pos;
         GetComponent<SpriteRenderer>().color = color;
+        HideIndicator();
+    }
+
+    public void ShowIndicator()
+    {
+        moveIndicator.SetActive(true);
+    }
+
+    public void HideIndicator()
+    {
+        moveIndicator.SetActive(false);
+    }
+
+    void OnMouseDown()
+    {
+        BoardController.Instance.OnTileClicked(this);
     }
 }

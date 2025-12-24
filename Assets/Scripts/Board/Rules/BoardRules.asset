@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b89ed7aa585a487c96557f5aa8ec34d, type: 3}
   m_Name: BoardRules
   m_EditorClassIdentifier: Assembly-CSharp::BoardRules
-  minSize: 3
+  minSize: 4
   maxSize: 8
   tileSize: 1
   lightTileColor: {r: 1, g: 0.9803922, b: 0.9803922, a: 1}

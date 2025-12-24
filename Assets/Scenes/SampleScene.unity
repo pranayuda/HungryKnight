@@ -371,7 +371,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardController
   boardRules: {fileID: 11400000, guid: 216f1f204ec194defabf8357ede6568b, type: 2}
   boardView: {fileID: 1942542923}
-  currentLevel: 1
+  currentBoardSize: 3
+  currentEnemyCount: 1
+  knightPrefab: {fileID: 4036433111631871549, guid: 1879a396e56c1497aad64ff2a995f8ff, type: 3}
 --- !u!4 &1549290155
 Transform:
   m_ObjectHideFlags: 0

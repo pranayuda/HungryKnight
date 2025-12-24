@@ -4,11 +4,16 @@ public class BoardView : MonoBehaviour
 {
     [SerializeField] private GameObject tilePrefab;
 
-    public void Generate(BoardRuntimeData data)
+    public Vector2 BoardOffset { get; private set; }
+
+    public ChessTileScript[,] Generate(BoardRuntimeData data)
     {
         ClearBoard();
 
-        Vector2 offset = GetBoardOffset(data);
+        ChessTileScript[,] tiles =
+            new ChessTileScript[data.width, data.height];
+
+        BoardOffset = GetBoardOffset(data);
 
         for (int x = 0; x < data.width; x++)
         {
@@ -16,28 +21,34 @@ public class BoardView : MonoBehaviour
             {
                 Vector2Int gridPos = new Vector2Int(x, y);
 
-                Vector3 worldPos = new Vector3(
-                    x * data.tileSize,
-                    y * data.tileSize,
-                    0
-                ) + (Vector3)offset;
+                Vector3 worldPos =
+                    new Vector3(
+                        x * data.tileSize,
+                        y * data.tileSize,
+                        0
+                    ) + (Vector3)BoardOffset;
 
-                GameObject tile = Instantiate(
+                GameObject tileGO = Instantiate(
                     tilePrefab,
                     worldPos,
                     Quaternion.identity,
                     transform
                 );
 
+                ChessTileScript tile =
+                    tileGO.GetComponent<ChessTileScript>();
+
                 bool isLight = (x + y) % 2 == 0;
                 Color color = isLight
                     ? data.lightTileColor
                     : data.darkTileColor;
 
-                tile.GetComponent<ChessTileScript>()
-                    .Init(gridPos, color);
+                tile.Init(gridPos, color);
+                tiles[x, y] = tile;
             }
         }
+
+        return tiles;
     }
 
     Vector2 GetBoardOffset(BoardRuntimeData data)
