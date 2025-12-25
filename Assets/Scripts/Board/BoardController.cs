@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BoardController : MonoBehaviour
 {
@@ -7,12 +8,14 @@ public class BoardController : MonoBehaviour
     [Header("Rules")]
     [SerializeField] private BoardRules boardRules;
 
+
     [Header("References")]
     [SerializeField] private BoardView boardView;
     [SerializeField] private PieceSpawner pieceSpawner;
 
     ChessTileScript[,] tiles;
     KnightController knight;
+    List<PawnController> pawns;
     bool knightSelected = false;
 
     void Awake()
@@ -41,10 +44,42 @@ public class BoardController : MonoBehaviour
 
         tiles = boardView.Generate(data);
 
-        knight = pieceSpawner.SpawnKnight(
+        PuzzleGenerator generator =
+            new PuzzleGenerator(
+                data.width,
+                data.height,
+                boardRules.enemiesToSpawn
+            );
+
+        bool success = generator.TryGeneratePuzzle(
+            out Vector2Int knightPos,
+            out List<Vector2Int> pawnPositions,
+            out List<Vector2Int> solutionPath
+        );
+
+        if (!success)
+        {
+            Debug.LogError("Failed to generate puzzle");
+            return;
+        }
+
+        Debug.Log("PUZZLE SOLUTION PATH");
+        for (int i = 0; i < solutionPath.Count; i++)
+        {
+            Debug.Log($"Step {i}: {solutionPath[i]}");
+        }
+        Debug.Log($"Knight Position: {knightPos}");
+
+        knight = pieceSpawner.SpawnKnightAt(
             boardView.transform,
-            data.width,
-            data.height,
+            knightPos,
+            data.tileSize,
+            boardView.BoardOffset
+        );
+
+        pawns = pieceSpawner.SpawnPawnsAt(
+            boardView.transform,
+            pawnPositions,
             data.tileSize,
             boardView.BoardOffset
         );
@@ -58,25 +93,47 @@ public class BoardController : MonoBehaviour
         ShowValidMoves();
     }
 
+    PawnController GetPawnAt(Vector2Int pos)
+    {
+        foreach (var pawn in pawns)
+        {
+            if (pawn.GridPosition == pos)
+                return pawn;
+        }
+        return null;
+    }
+
     // Called when a tile is clicked
     public void OnTileClicked(ChessTileScript tile)
     {
         if (!knightSelected)
             return;
+        // Attempt to move the knight to the clicked tile
+        Vector2Int target = tile.gridPosition;
 
         bool moved = knight.TryMove(
-            tile.gridPosition,
+            target,
             tiles.GetLength(0),
             tiles.GetLength(1)
         );
 
+        // If moved, check for pawn capture
         if (moved)
         {
+            PawnController pawn = GetPawnAt(target);
+
+            if (pawn != null)
+            {
+                pawns.Remove(pawn);
+                Destroy(pawn.gameObject);
+            }
+
             knightSelected = false;
             ClearIndicators();
             return;
         }
 
+        // If move failed, deselect the knight
         knightSelected = false;
         ClearIndicators();
     }
