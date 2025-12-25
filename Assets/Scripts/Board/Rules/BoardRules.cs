@@ -13,5 +13,8 @@ public class BoardRules : ScriptableObject
     public Color darkTileColor;
 
     [Header("Difficulty Thresholds")]
+    public int enemiesToSpawn = 2;
+    public int sizeToIncreaseDifficulty = 1;
+    public int enemiesToIncreaseDifficulty = 1;
     public float densityThresholdToGrow = 0.8f;
 }

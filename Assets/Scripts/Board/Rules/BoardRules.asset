@@ -17,4 +17,7 @@ MonoBehaviour:
   tileSize: 1
   lightTileColor: {r: 1, g: 0.9803922, b: 0.9803922, a: 1}
   darkTileColor: {r: 0.2352941, g: 0.7019608, b: 0.4431373, a: 1}
+  enemiesToSpawn: 12
+  sizeToIncreaseDifficulty: 1
+  enemiesToIncreaseDifficulty: 1
   densityThresholdToGrow: 0.8

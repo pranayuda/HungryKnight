@@ -7,7 +7,6 @@ public class BoardController : MonoBehaviour
 
     [Header("Rules")]
     [SerializeField] private BoardRules boardRules;
-    [SerializeField] private int enemyCount = 3;
 
 
     [Header("References")]
@@ -45,22 +44,44 @@ public class BoardController : MonoBehaviour
 
         tiles = boardView.Generate(data);
 
-        knight = pieceSpawner.SpawnKnight(
+        PuzzleGenerator generator =
+            new PuzzleGenerator(
+                data.width,
+                data.height,
+                boardRules.enemiesToSpawn
+            );
+
+        bool success = generator.TryGeneratePuzzle(
+            out Vector2Int knightPos,
+            out List<Vector2Int> pawnPositions,
+            out List<Vector2Int> solutionPath
+        );
+
+        if (!success)
+        {
+            Debug.LogError("Failed to generate puzzle");
+            return;
+        }
+
+        Debug.Log("PUZZLE SOLUTION PATH");
+        for (int i = 0; i < solutionPath.Count; i++)
+        {
+            Debug.Log($"Step {i}: {solutionPath[i]}");
+        }
+        Debug.Log($"Knight Position: {knightPos}");
+
+        knight = pieceSpawner.SpawnKnightAt(
             boardView.transform,
-            data.width,
-            data.height,
+            knightPos,
             data.tileSize,
             boardView.BoardOffset
         );
 
-        pawns = pieceSpawner.SpawnPawns(
+        pawns = pieceSpawner.SpawnPawnsAt(
             boardView.transform,
-            enemyCount,
-            data.width,
-            data.height,
+            pawnPositions,
             data.tileSize,
-            boardView.BoardOffset,
-            knight.GridPosition
+            boardView.BoardOffset
         );
     }
     
