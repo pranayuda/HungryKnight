@@ -25,12 +25,12 @@ public class BoardController : MonoBehaviour
     }
 
     // Generate a new level with initial board size
-    public void GenerateLevel(int enemyCount)
+    public void GenerateLevel(int boardSize, int enemyCount)
     {
         ClearBoardState();
 
-        int size = boardRules.minSize;
-
+        int size = boardSize;
+        
         BoardRuntimeData data = new BoardRuntimeData
         {
             width = size,

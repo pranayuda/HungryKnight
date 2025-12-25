@@ -464,9 +464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ab06413de6d4f8384bd9d37fd881d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HungryKnight.Runtime::LevelManager
-  startEnemyCount: 3
-  maxEnemyCount: 60
   boardController: {fileID: 1549290156}
+  boardRules: {fileID: 11400000, guid: 216f1f204ec194defabf8357ede6568b, type: 2}
 --- !u!1 &1390845081
 GameObject:
   m_ObjectHideFlags: 0
