@@ -9,7 +9,7 @@ public class BoardController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private BoardView boardView;
-    [SerializeField] private GameObject knightPrefab;
+    [SerializeField] private PieceSpawner pieceSpawner;
 
     ChessTileScript[,] tiles;
     KnightController knight;
@@ -39,20 +39,11 @@ public class BoardController : MonoBehaviour
         };
 
         tiles = boardView.Generate(data);
-        SpawnKnight(data);
-    }
 
-    void SpawnKnight(BoardRuntimeData data)
-    {
-        int x = Random.Range(0, data.width);
-        int y = Random.Range(0, data.height);
-
-        GameObject go =
-            Instantiate(knightPrefab, boardView.transform);
-
-        knight = go.GetComponent<KnightController>();
-        knight.Init(
-            new Vector2Int(x, y),
+        knight = pieceSpawner.SpawnKnight(
+            boardView.transform,
+            data.width,
+            data.height,
             data.tileSize,
             boardView.BoardOffset
         );
@@ -79,7 +70,11 @@ public class BoardController : MonoBehaviour
         {
             knightSelected = false;
             ClearIndicators();
+            return;
         }
+
+        knightSelected = false;
+        ClearIndicators();
     }
 
     void ShowValidMoves()
@@ -88,26 +83,13 @@ public class BoardController : MonoBehaviour
 
         Vector2Int pos = knight.GridPosition;
 
-        Vector2Int[] moves =
-        {
-            new Vector2Int(1, 2),
-            new Vector2Int(2, 1),
-            new Vector2Int(-1, 2),
-            new Vector2Int(-2, 1),
-            new Vector2Int(1, -2),
-            new Vector2Int(2, -1),
-            new Vector2Int(-1, -2),
-            new Vector2Int(-2, -1)
-        };
-
-        foreach (var move in moves)
+        foreach (var move in KnightMoveRules.Moves)
         {
             Vector2Int target = pos + move;
 
             if (IsInsideBoard(target))
             {
-                tiles[target.x, target.y]
-                    .ShowIndicator();
+                tiles[target.x, target.y].ShowIndicator();
             }
         }
     }

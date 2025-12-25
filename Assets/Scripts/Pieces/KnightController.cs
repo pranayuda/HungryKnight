@@ -7,18 +7,6 @@ public class KnightController : MonoBehaviour
     float tileSize;
     Vector2 boardOffset;
 
-    Vector2Int[] knightMoves =
-    {
-        new Vector2Int(1, 2),
-        new Vector2Int(2, 1),
-        new Vector2Int(-1, 2),
-        new Vector2Int(-2, 1),
-        new Vector2Int(1, -2),
-        new Vector2Int(2, -1),
-        new Vector2Int(-1, -2),
-        new Vector2Int(-2, -1)
-    };
-
     public void Init(
         Vector2Int startPos,
         float tileSize,
@@ -42,25 +30,13 @@ public class KnightController : MonoBehaviour
             ) + (Vector3)boardOffset;
     }
 
-    public bool IsValidKnightMove(Vector2Int target)
-    {
-        Vector2Int delta = target - GridPosition;
-
-        foreach (var move in knightMoves)
-        {
-            if (delta == move)
-                return true;
-        }
-        return false;
-    }
-
     public bool TryMove(
         Vector2Int target,
         int boardWidth,
         int boardHeight
     )
     {
-        if (!IsValidKnightMove(target))
+        if (!KnightMoveRules.IsValidMove(GridPosition, target))
             return false;
 
         if (target.x < 0 || target.x >= boardWidth ||
