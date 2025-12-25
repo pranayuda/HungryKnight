@@ -26,8 +26,18 @@ public class GameManager : MonoBehaviour
             return;
 
         State = GameState.Playing;
-        Debug.Log("GAME STARTED");
 
+        ChessTimer.Instance.ResetTimer();
+
+        levelManager.StartFirstLevel();
+    }
+
+    public void RestartGame()
+    {
+        State = GameState.Playing;
+
+        ChessTimer.Instance.ResetTimer();
+        levelManager.ResetProgression();
         levelManager.StartFirstLevel();
     }
 
@@ -38,13 +48,6 @@ public class GameManager : MonoBehaviour
 
         State = GameState.GameOver;
         Debug.Log($"GAME OVER: {reason}");
-    }
-
-    public void RestartGame()
-    {
-        Debug.Log("RESTART GAME");
-
-        State = GameState.Idle;
     }
 
     public void OnTimeUp()

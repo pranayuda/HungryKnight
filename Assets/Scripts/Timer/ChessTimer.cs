@@ -5,6 +5,9 @@ public class ChessTimer : MonoBehaviour
     public static ChessTimer Instance { get; private set; }
     ChessTimerLogic logic;
 
+    float baseTime;
+    float increment;
+
     public float TimeRemaining =>
         logic != null ? logic.TimeRemaining : 0f;
 
@@ -15,9 +18,17 @@ public class ChessTimer : MonoBehaviour
 
     public void Init(float baseTime, float increment)
     {
-        if (logic != null)
-            return;
+        this.baseTime = baseTime;
+        this.increment = increment;
 
+        if (logic == null)
+        {
+            logic = new ChessTimerLogic(baseTime, increment);
+        }
+    }
+
+    public void ResetTimer()
+    {
         logic = new ChessTimerLogic(baseTime, increment);
     }
 
@@ -30,8 +41,6 @@ public class ChessTimer : MonoBehaviour
 
         if (logic.IsTimeUp())
         {
-            if (GameManager.Instance.State != GameState.Playing)
-                return;
             GameManager.Instance.OnTimeUp();    
         }
     }
