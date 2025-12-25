@@ -6,6 +6,7 @@ public class BoardRules : ScriptableObject
 {
     public int minSize = 3;
     public int maxSize = 8;
+    public int maxEnemies = 60;
 
     [Header("Tile Settings")]
     public float tileSize = 1f;

@@ -12,6 +12,7 @@ public class BoardController : MonoBehaviour
     [Header("References")]
     [SerializeField] private BoardView boardView;
     [SerializeField] private PieceSpawner pieceSpawner;
+    [SerializeField] private LevelManager levelManager;
 
     ChessTileScript[,] tiles;
     KnightController knight;
@@ -23,15 +24,12 @@ public class BoardController : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        GenerateLevel();
-    }
-
     // Generate a new level with initial board size
-    void GenerateLevel()
+    public void GenerateLevel(int boardSize, int enemyCount)
     {
-        int size = boardRules.minSize;
+        ClearBoardState();
+
+        int size = boardSize;
 
         BoardRuntimeData data = new BoardRuntimeData
         {
@@ -48,7 +46,7 @@ public class BoardController : MonoBehaviour
             new PuzzleGenerator(
                 data.width,
                 data.height,
-                boardRules.enemiesToSpawn
+                enemyCount
             );
 
         bool success = generator.TryGeneratePuzzle(
@@ -62,6 +60,7 @@ public class BoardController : MonoBehaviour
             Debug.LogError("Failed to generate puzzle");
             return;
         }
+
 
         Debug.Log("PUZZLE SOLUTION PATH");
         for (int i = 0; i < solutionPath.Count; i++)
@@ -126,6 +125,8 @@ public class BoardController : MonoBehaviour
             {
                 pawns.Remove(pawn);
                 Destroy(pawn.gameObject);
+
+                CheckLevelClear();
             }
 
             knightSelected = false;
@@ -174,5 +175,33 @@ public class BoardController : MonoBehaviour
     {
         return pos.x >= 0 && pos.x < tiles.GetLength(0) &&
                pos.y >= 0 && pos.y < tiles.GetLength(1);
+    }
+    // Clear the current board state before generating a new level
+    void ClearBoardState()
+    {
+        knightSelected = false;
+
+        if (knight != null)
+            Destroy(knight.gameObject);
+
+        if (pawns != null)
+        {
+            foreach (var pawn in pawns)
+            {
+                Destroy(pawn.gameObject);
+            }
+            pawns.Clear();
+        }
+    }
+
+    // Check if all pawns have been captured to clear the level
+    void CheckLevelClear()
+    {
+        if (pawns.Count > 0)
+            return;
+
+        Debug.Log("LEVEL CLEARED!");
+
+        levelManager.OnLevelCleared();
     }
 }
