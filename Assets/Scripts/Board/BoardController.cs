@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BoardController : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class BoardController : MonoBehaviour
 
     [Header("Rules")]
     [SerializeField] private BoardRules boardRules;
+    [SerializeField] private int enemyCount = 3;
+
 
     [Header("References")]
     [SerializeField] private BoardView boardView;
@@ -13,6 +16,7 @@ public class BoardController : MonoBehaviour
 
     ChessTileScript[,] tiles;
     KnightController knight;
+    List<PawnController> pawns;
     bool knightSelected = false;
 
     void Awake()
@@ -48,6 +52,16 @@ public class BoardController : MonoBehaviour
             data.tileSize,
             boardView.BoardOffset
         );
+
+        pawns = pieceSpawner.SpawnPawns(
+            boardView.transform,
+            enemyCount,
+            data.width,
+            data.height,
+            data.tileSize,
+            boardView.BoardOffset,
+            knight.GridPosition
+        );
     }
     
     // Called when the knight is clicked
@@ -58,25 +72,47 @@ public class BoardController : MonoBehaviour
         ShowValidMoves();
     }
 
+    PawnController GetPawnAt(Vector2Int pos)
+    {
+        foreach (var pawn in pawns)
+        {
+            if (pawn.GridPosition == pos)
+                return pawn;
+        }
+        return null;
+    }
+
     // Called when a tile is clicked
     public void OnTileClicked(ChessTileScript tile)
     {
         if (!knightSelected)
             return;
+        // Attempt to move the knight to the clicked tile
+        Vector2Int target = tile.gridPosition;
 
         bool moved = knight.TryMove(
-            tile.gridPosition,
+            target,
             tiles.GetLength(0),
             tiles.GetLength(1)
         );
 
+        // If moved, check for pawn capture
         if (moved)
         {
+            PawnController pawn = GetPawnAt(target);
+
+            if (pawn != null)
+            {
+                pawns.Remove(pawn);
+                Destroy(pawn.gameObject);
+            }
+
             knightSelected = false;
             ClearIndicators();
             return;
         }
 
+        // If move failed, deselect the knight
         knightSelected = false;
         ClearIndicators();
     }

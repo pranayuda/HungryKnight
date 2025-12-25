@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: HungryKnight.Runtime::PieceSpawner
   knightPrefab: {fileID: 4036433111631871549, guid: 1879a396e56c1497aad64ff2a995f8ff, type: 3}
+  pawnPrefab: {fileID: 8524889235310240904, guid: 57990e9b8fa4b46d7842931935febd2c, type: 3}
 --- !u!4 &1549290155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2971643449452195494, guid: 048abe1f848314fd998a886167f7c120, type: 3}
