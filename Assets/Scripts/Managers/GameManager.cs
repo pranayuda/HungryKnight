@@ -25,9 +25,14 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         Debug.Log("GAME OVER: TIME UP");
+    }
 
-        // nanti:
-        // - disable input
-        // - show game over UI
+    public void OnInvalidMove()
+    {
+        if (isGameOver)
+            return;
+
+        isGameOver = true;
+        Debug.Log("GAME OVER: KNIGHT MOVED TO EMPTY TILE");
     }
 }

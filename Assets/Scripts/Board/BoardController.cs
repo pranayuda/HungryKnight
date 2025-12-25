@@ -113,7 +113,7 @@ public class BoardController : MonoBehaviour
 
         if (!knightSelected)
             return;
-            
+
         // Attempt to move the knight to the clicked tile
         Vector2Int target = tile.gridPosition;
 
@@ -134,6 +134,12 @@ public class BoardController : MonoBehaviour
                 Destroy(pawn.gameObject);
 
                 CheckLevelClear();
+            }
+            else
+            {
+                ClearIndicators();
+                GameManager.Instance.OnInvalidMove();
+                return;
             }
             ChessTimer.Instance.OnPlayerMove();
 
