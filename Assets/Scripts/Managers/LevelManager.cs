@@ -7,11 +7,16 @@ public class LevelManager : MonoBehaviour
     int currentEnemyCount;
     int currentBoardSize;
 
-    [SerializeField] private BoardController boardController;
+    [Header("References")]
     [SerializeField] private BoardRules boardRules;
 
     void Start()
     {
+        ChessTimer.Instance.Init(
+            boardRules.baseTimeSeconds,
+            boardRules.incrementPerMove
+        );
+
         currentLevel = 1;
         currentEnemyCount = boardRules.enemiesToSpawn;
         currentBoardSize = boardRules.minSize;
@@ -21,7 +26,8 @@ public class LevelManager : MonoBehaviour
 
     void StartLevel()
     {
-        boardController.GenerateLevel(
+        // Generate the level with current parameters
+        BoardController.Instance.GenerateLevel(
             currentBoardSize,
             currentEnemyCount
         );
@@ -30,6 +36,10 @@ public class LevelManager : MonoBehaviour
     // Called when the current level is cleared to progress to the next level
     public void OnLevelCleared()
     {
+        ChessTimer.Instance.AddBonusTime(
+            boardRules.bonusTimeOnLevelClear
+        );
+
         // Determine the next level's parameters based on current state and rules
         var current = new LevelProgressionState
         {

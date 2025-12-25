@@ -128,6 +128,7 @@ public class BoardController : MonoBehaviour
 
                 CheckLevelClear();
             }
+            ChessTimer.Instance.OnPlayerMove();
 
             knightSelected = false;
             ClearIndicators();
@@ -147,6 +148,7 @@ public class BoardController : MonoBehaviour
 
         Vector2Int pos = knight.GridPosition;
 
+        // Highlight all valid knight moves
         foreach (var move in KnightMoveRules.Moves)
         {
             Vector2Int target = pos + move;
