@@ -18,4 +18,9 @@ public class BoardRules : ScriptableObject
     public int sizeToIncreaseDifficulty = 1;
     public int enemiesToIncreaseDifficulty = 1;
     public float densityThresholdToGrow = 0.8f;
+
+    [Header("Timer Settings")]
+    public float baseTimeSeconds = 120f;   
+    public float incrementPerMove = 1f;    
+    public float bonusTimeOnLevelClear = 5f;
 }
