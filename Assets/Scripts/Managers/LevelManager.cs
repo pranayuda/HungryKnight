@@ -17,13 +17,14 @@ public class LevelManager : MonoBehaviour
             boardRules.incrementPerMove
         );
 
-        currentLevel = 1;
-        currentEnemyCount = boardRules.enemiesToSpawn;
-        currentBoardSize = boardRules.minSize;
-
-        StartLevel();
+        ResetProgression();
     }
 
+    public void StartFirstLevel()
+    {
+        StartLevel();
+    }
+    
     void StartLevel()
     {
         // Generate the level with current parameters
@@ -31,6 +32,14 @@ public class LevelManager : MonoBehaviour
             currentBoardSize,
             currentEnemyCount
         );
+    }
+
+
+    public void ResetProgression()
+    {
+        currentLevel = 1;
+        currentEnemyCount = boardRules.enemiesToSpawn;
+        currentBoardSize = boardRules.minSize;
     }
 
     // Called when the current level is cleared to progress to the next level

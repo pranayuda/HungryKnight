@@ -1,11 +1,62 @@
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private BoardController boardController;
+    public static GameManager Instance { get; private set; }
 
-    void Start()
+    public GameState State { get; private set; } = GameState.Idle;
+    [SerializeField] private LevelManager levelManager;
+
+    void Awake()
     {
-        //boardController.StartLevel();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    public bool IsGameOver => State == GameState.GameOver;
+
+    public void StartGame()
+    {
+        if (State != GameState.Idle)
+            return;
+
+        State = GameState.Playing;
+
+        ChessTimer.Instance.ResetTimer();
+
+        levelManager.StartFirstLevel();
+    }
+
+    public void RestartGame()
+    {
+        State = GameState.Playing;
+
+        ChessTimer.Instance.ResetTimer();
+        levelManager.ResetProgression();
+        levelManager.StartFirstLevel();
+    }
+
+    public void GameOver(string reason)
+    {
+        if (State == GameState.GameOver)
+            return;
+
+        State = GameState.GameOver;
+        Debug.Log($"GAME OVER: {reason}");
+    }
+
+    public void OnTimeUp()
+    {
+        GameOver("TIME UP");
+    }
+
+    public void OnInvalidMove()
+    {
+        GameOver("KNIGHT MOVED TO EMPTY TILE");
     }
 }
