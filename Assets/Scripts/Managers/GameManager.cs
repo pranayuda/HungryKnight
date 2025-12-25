@@ -2,10 +2,32 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private BoardController boardController;
+    public static GameManager Instance { get; private set; }
 
-    void Start()
+    bool isGameOver = false;
+
+    void Awake()
     {
-        //boardController.StartLevel();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    public bool IsGameOver => isGameOver;
+
+    public void OnTimeUp()
+    {
+        if (isGameOver)
+            return;
+
+        isGameOver = true;
+        Debug.Log("GAME OVER: TIME UP");
+
+        // nanti:
+        // - disable input
+        // - show game over UI
     }
 }

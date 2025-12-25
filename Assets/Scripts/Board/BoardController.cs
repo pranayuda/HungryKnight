@@ -88,6 +88,9 @@ public class BoardController : MonoBehaviour
     // Included here because BoardController manages everything on the board
     public void OnKnightClicked()
     {
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         knightSelected = true;
         ShowValidMoves();
     }
@@ -105,8 +108,12 @@ public class BoardController : MonoBehaviour
     // Called when a tile is clicked
     public void OnTileClicked(ChessTileScript tile)
     {
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         if (!knightSelected)
             return;
+            
         // Attempt to move the knight to the clicked tile
         Vector2Int target = tile.gridPosition;
 

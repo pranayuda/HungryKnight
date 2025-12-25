@@ -30,7 +30,8 @@ public class ChessTimer : MonoBehaviour
 
         if (logic.IsTimeUp())
         {
-            Debug.Log("TIME UP!");
+            GameManager.Instance.OnTimeUp();
+            enabled = false;
         }
     }
 
