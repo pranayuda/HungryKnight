@@ -1,9 +1,11 @@
 using UnityEngine;
 
+// Class responsible for spawning knight on the board
 public class PieceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject knightPrefab;
 
+    // Spawns a knight at a random position on the board
     public KnightController SpawnKnight(
         Transform parent,
         int boardWidth,
@@ -18,6 +20,7 @@ public class PieceSpawner : MonoBehaviour
         GameObject go = Instantiate(knightPrefab, parent);
         KnightController knight = go.GetComponent<KnightController>();
 
+        // Initialize knight's position and board parameters
         knight.Init(
             new Vector2Int(x, y),
             tileSize,

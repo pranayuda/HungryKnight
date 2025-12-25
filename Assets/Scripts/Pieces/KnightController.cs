@@ -3,10 +3,11 @@ using UnityEngine;
 public class KnightController : MonoBehaviour
 {
     public Vector2Int GridPosition { get; private set; }
-
     float tileSize;
     Vector2 boardOffset;
 
+    // Initialize the knight's position and board parameters
+    // Called by PieceSpawner when spawning the knight
     public void Init(
         Vector2Int startPos,
         float tileSize,
@@ -18,6 +19,7 @@ public class KnightController : MonoBehaviour
         SetPosition(startPos);
     }
 
+    // Set the knight's position on the board
     public void SetPosition(Vector2Int pos)
     {
         GridPosition = pos;
@@ -30,6 +32,7 @@ public class KnightController : MonoBehaviour
             ) + (Vector3)boardOffset;
     }
 
+    // Attempt to move the knight to the target position
     public bool TryMove(
         Vector2Int target,
         int boardWidth,
@@ -47,8 +50,11 @@ public class KnightController : MonoBehaviour
         return true;
     }
 
+    // Handle mouse click events on the knight
+    // Uses old Unity OnMouseDown for simplicity
     void OnMouseDown()
     {
+        // uses singleton pattern to notify BoardController because it is easier
         BoardController.Instance.OnKnightClicked();
     }
 }

@@ -25,6 +25,7 @@ public class BoardController : MonoBehaviour
         GenerateLevel();
     }
 
+    // Generate a new level with initial board size
     void GenerateLevel()
     {
         int size = boardRules.minSize;
@@ -48,13 +49,16 @@ public class BoardController : MonoBehaviour
             boardView.BoardOffset
         );
     }
-
+    
+    // Called when the knight is clicked
+    // Included here because BoardController manages everything on the board
     public void OnKnightClicked()
     {
         knightSelected = true;
         ShowValidMoves();
     }
 
+    // Called when a tile is clicked
     public void OnTileClicked(ChessTileScript tile)
     {
         if (!knightSelected)
@@ -77,6 +81,8 @@ public class BoardController : MonoBehaviour
         ClearIndicators();
     }
 
+    // Show valid moves for the knight by highlighting tiles
+    // Called when the knight is clicked
     void ShowValidMoves()
     {
         ClearIndicators();
@@ -94,6 +100,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Clear all move indicators from the tiles
     void ClearIndicators()
     {
         for (int x = 0; x < tiles.GetLength(0); x++)
@@ -104,7 +111,8 @@ public class BoardController : MonoBehaviour
             }
         }
     }
-
+    
+    // Check if a position is inside the board boundaries
     bool IsInsideBoard(Vector2Int pos)
     {
         return pos.x >= 0 && pos.x < tiles.GetLength(0) &&
