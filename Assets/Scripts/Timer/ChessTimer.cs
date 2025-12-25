@@ -23,15 +23,16 @@ public class ChessTimer : MonoBehaviour
 
     void Update()
     {
-        if (logic == null)
+        if (logic == null || GameManager.Instance.State != GameState.Playing)
             return;
 
         logic.Tick(Time.deltaTime);
 
         if (logic.IsTimeUp())
         {
-            GameManager.Instance.OnTimeUp();
-            enabled = false;
+            if (GameManager.Instance.State != GameState.Playing)
+                return;
+            GameManager.Instance.OnTimeUp();    
         }
     }
 

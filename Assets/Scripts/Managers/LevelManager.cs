@@ -20,10 +20,13 @@ public class LevelManager : MonoBehaviour
         currentLevel = 1;
         currentEnemyCount = boardRules.enemiesToSpawn;
         currentBoardSize = boardRules.minSize;
-
-        StartLevel();
     }
 
+    public void StartFirstLevel()
+    {
+        StartLevel();
+    }
+    
     void StartLevel()
     {
         // Generate the level with current parameters

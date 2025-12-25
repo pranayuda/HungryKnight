@@ -1,10 +1,12 @@
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    bool isGameOver = false;
+    public GameState State { get; private set; } = GameState.Idle;
+    [SerializeField] private LevelManager levelManager;
 
     void Awake()
     {
@@ -16,23 +18,42 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public bool IsGameOver => isGameOver;
+    public bool IsGameOver => State == GameState.GameOver;
+
+    public void StartGame()
+    {
+        if (State != GameState.Idle)
+            return;
+
+        State = GameState.Playing;
+        Debug.Log("GAME STARTED");
+
+        levelManager.StartFirstLevel();
+    }
+
+    public void GameOver(string reason)
+    {
+        if (State == GameState.GameOver)
+            return;
+
+        State = GameState.GameOver;
+        Debug.Log($"GAME OVER: {reason}");
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("RESTART GAME");
+
+        State = GameState.Idle;
+    }
 
     public void OnTimeUp()
     {
-        if (isGameOver)
-            return;
-
-        isGameOver = true;
-        Debug.Log("GAME OVER: TIME UP");
+        GameOver("TIME UP");
     }
 
     public void OnInvalidMove()
     {
-        if (isGameOver)
-            return;
-
-        isGameOver = true;
-        Debug.Log("GAME OVER: KNIGHT MOVED TO EMPTY TILE");
+        GameOver("KNIGHT MOVED TO EMPTY TILE");
     }
 }
