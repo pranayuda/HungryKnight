@@ -21,6 +21,7 @@ public class PieceSpawner : MonoBehaviour
         return knight;
     }
 
+    // Spawns pawns at specified positions on the board
     public List<PawnController> SpawnPawnsAt(
         Transform parent,
         List<Vector2Int> positions,
@@ -30,6 +31,7 @@ public class PieceSpawner : MonoBehaviour
     {
         List<PawnController> pawns = new List<PawnController>();
 
+        // Instantiate a pawn for each specified position
         foreach (var pos in positions)
         {
             GameObject go = Instantiate(pawnPrefab, parent);
@@ -41,6 +43,7 @@ public class PieceSpawner : MonoBehaviour
         return pawns;
     }
 
+    // Utility method to get a random position on the board avoiding blocked positions
     Vector2Int GetRandomPosition(
         int width,
         int height,

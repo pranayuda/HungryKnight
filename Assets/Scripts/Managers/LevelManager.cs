@@ -1,55 +1,52 @@
 using UnityEngine;
 
+// Manages level progression, including board size and enemy count
 public class LevelManager : MonoBehaviour
 {
-    [Header("Progression Settings")]
-
-    int currentLevel = 1;
+    int currentLevel;
     int currentEnemyCount;
     int currentBoardSize;
 
-    [Header("References")]
     [SerializeField] private BoardController boardController;
     [SerializeField] private BoardRules boardRules;
 
     void Start()
     {
+        currentLevel = 1;
         currentEnemyCount = boardRules.enemiesToSpawn;
         currentBoardSize = boardRules.minSize;
+
         StartLevel();
     }
 
     void StartLevel()
     {
-        Debug.Log($"=== LEVEL {currentLevel} ===");
-        Debug.Log($"Board Size: {currentBoardSize}");
-        Debug.Log($"Enemy Count: {currentEnemyCount}");
-
         boardController.GenerateLevel(
             currentBoardSize,
             currentEnemyCount
         );
     }
 
+    // Called when the current level is cleared to progress to the next level
     public void OnLevelCleared()
     {
-        currentLevel++;
-
-        if (currentEnemyCount < boardRules.maxEnemies)
-            currentEnemyCount++;
-
-        float density =
-            (float)currentEnemyCount /
-            (currentBoardSize * currentBoardSize);
-
-        if (
-            density >= boardRules.densityThresholdToGrow &&
-            currentBoardSize < boardRules.maxSize
-        )
+        // Determine the next level's parameters based on current state and rules
+        var current = new LevelProgressionState
         {
-            currentBoardSize++;
-            Debug.Log($"Board size increased to {currentBoardSize}x{currentBoardSize}");
-        }
+            level = currentLevel,
+            boardSize = currentBoardSize,
+            enemyCount = currentEnemyCount
+        };
+
+        var next =
+            LevelProgressionLogic.Next(
+                current,
+                boardRules
+            );
+
+        currentLevel = next.level;
+        currentBoardSize = next.boardSize;
+        currentEnemyCount = next.enemyCount;
 
         StartLevel();
     }

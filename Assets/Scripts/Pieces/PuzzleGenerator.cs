@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class responsible for generating puzzles on the chessboard
 public class PuzzleGenerator
 {
     int boardWidth;
@@ -22,6 +23,7 @@ public class PuzzleGenerator
         this.maxRetry = maxRetry;
     }
 
+    // Attempts to generate a solvable puzzle configuration
     public bool TryGeneratePuzzle(
         out Vector2Int knightStartPos,
         out List<Vector2Int> pawnPositions,
@@ -46,12 +48,14 @@ public class PuzzleGenerator
         return false;
     }
 
+    // Generates a path for the knight and places pawns accordingly
     bool TryGeneratePath(
         out Vector2Int knightStartPos,
         out List<Vector2Int> pawnPositions,
         out List<Vector2Int> solutionPath
     )
     {
+        // Initialize outputs and occupied positions
         pawnPositions = new List<Vector2Int>();
         solutionPath = new List<Vector2Int>();
         HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
@@ -61,6 +65,8 @@ public class PuzzleGenerator
 
         solutionPath.Add(current);
 
+        // Build the path in reverse, placing pawns along the way
+        // This ensures the knight can reach all pawns
         for (int i = 0; i < enemyCount; i++)
         {
             List<Vector2Int> candidates =
@@ -84,12 +90,14 @@ public class PuzzleGenerator
             solutionPath.Add(current);
         }
 
+        // Reverse the solution path to get the correct order
         solutionPath.Reverse();
         knightStartPos = solutionPath[0];
 
         return true;
     }
 
+    // Gets valid reverse moves for the knight from a given position
     List<Vector2Int> GetValidReverseMoves(
         Vector2Int from,
         HashSet<Vector2Int> occupied

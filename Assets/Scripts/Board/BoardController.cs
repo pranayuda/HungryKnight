@@ -30,7 +30,7 @@ public class BoardController : MonoBehaviour
         ClearBoardState();
 
         int size = boardSize;
-        
+
         BoardRuntimeData data = new BoardRuntimeData
         {
             width = size,
@@ -194,6 +194,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Check if all pawns have been captured to clear the level
     void CheckLevelClear()
     {
         if (pawns.Count > 0)
