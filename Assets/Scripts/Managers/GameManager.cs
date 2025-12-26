@@ -1,6 +1,6 @@
 using UnityEngine;
 
-
+// Manages the overall game state and flow
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
