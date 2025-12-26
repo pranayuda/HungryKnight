@@ -31,7 +31,7 @@ public class PieceSpawner : MonoBehaviour
     {
         List<PawnController> pawns = new List<PawnController>();
 
-        // Instantiate a pawn for each specified position
+        // Instantiate a pawn for each specified position acquired from puzzle generator
         foreach (var pos in positions)
         {
             GameObject go = Instantiate(pawnPrefab, parent);

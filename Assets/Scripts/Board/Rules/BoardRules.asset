@@ -22,6 +22,7 @@ MonoBehaviour:
   sizeToIncreaseDifficulty: 1
   enemiesToIncreaseDifficulty: 1
   densityThresholdToGrow: 0.5
-  baseTimeSeconds: 10
+  baseTimeSeconds: 60
   incrementPerMove: 1
   bonusTimeOnLevelClear: 5
+  extraPawnCount: 5

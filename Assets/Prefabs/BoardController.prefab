@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardController
   boardRules: {fileID: 11400000, guid: 216f1f204ec194defabf8357ede6568b, type: 2}
-  boardView: {fileID: 1257455239629415522, guid: f2a0d91cf404d43e2a4651b22fe990ce, type: 3}
-  knightPrefab: {fileID: 4036433111631871549, guid: 1879a396e56c1497aad64ff2a995f8ff, type: 3}
+  boardView: {fileID: 0}
+  pieceSpawner: {fileID: 0}
+  levelManager: {fileID: 0}

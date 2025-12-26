@@ -23,4 +23,7 @@ public class BoardRules : ScriptableObject
     public float baseTimeSeconds = 120f;   
     public float incrementPerMove = 1f;    
     public float bonusTimeOnLevelClear = 5f;
+
+    [Header("Extra Pawn Settings")]
+    public int extraPawnCount = 1;
 }

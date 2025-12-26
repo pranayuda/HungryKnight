@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
             return;
 
         State = GameState.Playing;
-
+        ExtraPawnManager.Instance.ResetExtraPawns();
         ChessTimer.Instance.ResetTimer();
 
         levelManager.StartFirstLevel();
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         State = GameState.Playing;
-
+        ExtraPawnManager.Instance.ResetExtraPawns();
         ChessTimer.Instance.ResetTimer();
         levelManager.ResetProgression();
         levelManager.StartFirstLevel();
