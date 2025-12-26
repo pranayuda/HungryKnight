@@ -29,6 +29,7 @@ public class KnightMoveLogic
         }
 
         pawnLogic.TryCapturePawn(target);
+        SFXManager.Instance.PlayCaptureSound();
         ChessTimer.Instance.OnPlayerMove();
     }
 
@@ -50,6 +51,9 @@ public class KnightMoveLogic
             if (hasPawnAt(target))
                 return true;
         }
+
+        if (!ExtraPawnManager.Instance.CanUseExtraPawn())
+            GameManager.Instance.OnDeadlockWithoutExtraPawns();
 
         return false;
     }

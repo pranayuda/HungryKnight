@@ -79,7 +79,7 @@ public class BoardController : MonoBehaviour
 
     public void OnKnightClicked()
     {
-        if (GameManager.Instance.IsGameOver)
+        if (GameManager.Instance.State != GameState.Playing)
             return;
 
         knightSelected = true;
@@ -93,7 +93,7 @@ public class BoardController : MonoBehaviour
 
     public void OnTileClicked(ChessTileScript tile)
     {
-        if (GameManager.Instance.IsGameOver)
+        if (GameManager.Instance.State != GameState.Playing)
             return;
 
         Vector2Int pos = tile.gridPosition;

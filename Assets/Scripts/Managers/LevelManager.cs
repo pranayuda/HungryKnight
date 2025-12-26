@@ -3,6 +3,7 @@ using UnityEngine;
 // Manages level progression, including board size and enemy count
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
     int currentLevel;
     int currentEnemyCount;
     int currentBoardSize;
@@ -10,6 +11,10 @@ public class LevelManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private BoardRules boardRules;
+
+    void Awake() {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -46,7 +51,7 @@ public class LevelManager : MonoBehaviour
     // Called when the current level is cleared to progress to the next level
     public void OnLevelCleared()
     {
-        if (ClearedBoards % 5 == 0)
+        if (currentLevel % 5 == 0)
         {
             ExtraPawnManager.Instance.AddExtraPawn(1);
             Debug.Log("Granted an extra pawn for every 5 levels cleared!");

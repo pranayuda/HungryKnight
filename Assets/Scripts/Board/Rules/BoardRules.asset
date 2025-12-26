@@ -16,8 +16,8 @@ MonoBehaviour:
   maxSize: 8
   maxEnemies: 60
   tileSize: 1
-  lightTileColor: {r: 1, g: 0.9803922, b: 0.9803922, a: 1}
-  darkTileColor: {r: 0.2352941, g: 0.7019608, b: 0.4431373, a: 1}
+  lightTileColor: {r: 0.9607844, g: 0.8705883, b: 0.7019608, a: 1}
+  darkTileColor: {r: 0.8039216, g: 0.5215687, b: 0.2470588, a: 1}
   enemiesToSpawn: 3
   sizeToIncreaseDifficulty: 1
   enemiesToIncreaseDifficulty: 1

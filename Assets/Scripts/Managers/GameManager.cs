@@ -1,12 +1,13 @@
 using UnityEngine;
 
-
+// Manages the overall game state and flow
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public GameState State { get; private set; } = GameState.Idle;
     [SerializeField] private LevelManager levelManager;
+    public string GameOverReason { get; private set; }
 
     void Awake()
     {
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        BoardController.Instance.GenerateLevel(8,5);
     }
 
     public bool IsGameOver => State == GameState.GameOver;
@@ -52,11 +55,19 @@ public class GameManager : MonoBehaviour
 
     public void OnTimeUp()
     {
-        GameOver("TIME UP");
+        GameOverReason = "Time's Up! Be Quicker Next Time!";
+        GameOver(GameOverReason);
     }
 
     public void OnInvalidMove()
     {
-        GameOver("KNIGHT MOVED TO EMPTY TILE");
+        GameOverReason = "Knight Moved to an Empty Square!";
+        GameOver(GameOverReason);
+    }
+
+    public void OnDeadlockWithoutExtraPawns()
+    {
+        GameOverReason = "Can't Capture and No Extra Pawns Left!";
+        GameOver(GameOverReason);
     }
 }
