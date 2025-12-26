@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUIController : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private GameObject startButton;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject toggleRestartButton;
+    [SerializeField] private GameObject toggleStartButton;
     [SerializeField] private GameObject gameOverPanel;
 
-    void Start()
+    void Awake()
     {
         RefreshUI();
     }
@@ -21,18 +25,22 @@ public class GameUIController : MonoBehaviour
         switch (GameManager.Instance.State)
         {
             case GameState.Idle:
-                startButton.SetActive(true);
+                startButton.interactable = true;
+                toggleRestartButton.SetActive(false);
                 gameOverPanel.SetActive(false);
                 break;
 
             case GameState.Playing:
-                startButton.SetActive(false);
+                startButton.interactable = false;
+                restartButton.interactable = false;
                 gameOverPanel.SetActive(false);
                 break;
 
             case GameState.GameOver:
-                startButton.SetActive(false);
-                gameOverPanel.SetActive(true);
+                toggleStartButton.SetActive(false);
+                toggleRestartButton.SetActive(true);
+                // gameOverPanel.SetActive(true);
+                restartButton.interactable = true;
                 break;
         }
     }
@@ -45,5 +53,10 @@ public class GameUIController : MonoBehaviour
     public void OnRestartClicked()
     {
         GameManager.Instance.RestartGame();
+    }
+
+    public void OnClosePanelClicked()
+    {
+        gameOverPanel.SetActive(false);
     }
 }
