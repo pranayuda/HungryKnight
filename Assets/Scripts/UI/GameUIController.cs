@@ -9,6 +9,8 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private GameObject toggleRestartButton;
     [SerializeField] private GameObject toggleStartButton;
     [SerializeField] private GameObject gameOverPanel;
+    private string lastState = "";
+    private string currentState = "";
 
     void Awake()
     {
@@ -17,7 +19,12 @@ public class GameUIController : MonoBehaviour
 
     void Update()
     {
-        RefreshUI();
+        currentState = GameManager.Instance.State.ToString();
+        if (currentState != lastState)
+        {
+            lastState = currentState;
+            RefreshUI();
+        }
     }
 
     void RefreshUI()
@@ -39,7 +46,7 @@ public class GameUIController : MonoBehaviour
             case GameState.GameOver:
                 toggleStartButton.SetActive(false);
                 toggleRestartButton.SetActive(true);
-                // gameOverPanel.SetActive(true);
+                gameOverPanel.SetActive(true);
                 restartButton.interactable = true;
                 break;
         }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b89ed7aa585a487c96557f5aa8ec34d, type: 3}
   m_Name: BoardRules
   m_EditorClassIdentifier: Assembly-CSharp::BoardRules
-  minSize: 8
+  minSize: 4
   maxSize: 8
   maxEnemies: 60
   tileSize: 1
