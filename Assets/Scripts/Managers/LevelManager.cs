@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
     int currentLevel;
     int currentEnemyCount;
     int currentBoardSize;
+    public int ClearedBoards => currentLevel - 1;
 
     [Header("References")]
     [SerializeField] private BoardRules boardRules;
@@ -45,6 +46,12 @@ public class LevelManager : MonoBehaviour
     // Called when the current level is cleared to progress to the next level
     public void OnLevelCleared()
     {
+        if (ClearedBoards % 5 == 0)
+        {
+            ExtraPawnManager.Instance.AddExtraPawn(1);
+            Debug.Log("Granted an extra pawn for every 5 levels cleared!");
+        }
+
         ChessTimer.Instance.AddBonusTime(
             boardRules.bonusTimeOnLevelClear
         );
