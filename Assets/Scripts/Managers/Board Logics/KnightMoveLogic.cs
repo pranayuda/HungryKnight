@@ -51,6 +51,9 @@ public class KnightMoveLogic
                 return true;
         }
 
+        if (!ExtraPawnManager.Instance.CanUseExtraPawn())
+            GameManager.Instance.OnDeadlockWithoutExtraPawns();
+
         return false;
     }
 }

@@ -9,6 +9,7 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private GameObject toggleRestartButton;
     [SerializeField] private GameObject toggleStartButton;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TMPro.TMP_Text gameOverReasonText;
     private string lastState = "";
     private string currentState = "";
 
@@ -44,6 +45,7 @@ public class GameUIController : MonoBehaviour
                 break;
 
             case GameState.GameOver:
+                gameOverReasonText.text = GameManager.Instance.GameOverReason;
                 toggleStartButton.SetActive(false);
                 toggleRestartButton.SetActive(true);
                 gameOverPanel.SetActive(true);

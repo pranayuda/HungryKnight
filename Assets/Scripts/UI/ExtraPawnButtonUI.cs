@@ -35,7 +35,7 @@ public class ExtraPawnButtonUI : MonoBehaviour
 
         button.interactable = hasExtraPawn && !hasCaptureMove;
 
-        labelPawn.text = "Extra Pawns: " + ExtraPawnManager.Instance.ExtraPawnCount.ToString();
+        labelPawn.text = "Bonus Pawns: " + ExtraPawnManager.Instance.ExtraPawnCount.ToString();
         labelBoard.text = "Level: " + (LevelManager.Instance.ClearedBoards + 1).ToString();
     }
 
