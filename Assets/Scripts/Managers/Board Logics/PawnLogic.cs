@@ -41,7 +41,7 @@ public class PawnLogic
             return false;
 
         pawns.Remove(pawn);
-        Object.Destroy(pawn.gameObject);
+        Object.DestroyImmediate(pawn.gameObject);
         return true;
     }
 
@@ -55,7 +55,7 @@ public class PawnLogic
         foreach (var pawn in pawns)
         {
             if (pawn != null)
-                Object.Destroy(pawn.gameObject);
+                Object.DestroyImmediate(pawn.gameObject);
         }
         pawns.Clear();
     }
