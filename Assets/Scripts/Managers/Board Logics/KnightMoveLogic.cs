@@ -29,6 +29,7 @@ public class KnightMoveLogic
         }
 
         pawnLogic.TryCapturePawn(target);
+        SFXManager.Instance.PlayCaptureSound();
         ChessTimer.Instance.OnPlayerMove();
     }
 
