@@ -20,6 +20,10 @@ public class BoardController : MonoBehaviour
 
     bool knightSelected;
 
+    public Vector2Int KnightPosition => knight.GridPosition;
+    public int BoardWidth => tiles.GetLength(0);
+    public int BoardHeight => tiles.GetLength(1);
+
     void Awake()
     {
         Instance = this;
@@ -44,11 +48,14 @@ public class BoardController : MonoBehaviour
         PuzzleGenerator generator =
             new(boardSize, boardSize, enemyCount);
 
-        generator.TryGeneratePuzzle(
+        bool success = generator.TryGeneratePuzzle(
             out Vector2Int knightPos,
             out var pawnPositions,
             out _
         );
+
+        if (!success)
+            return;
 
         knight = pieceSpawner.SpawnKnightAt(
             boardView.transform,
@@ -57,7 +64,7 @@ public class BoardController : MonoBehaviour
             boardView.BoardOffset
         );
 
-        var pawns = pieceSpawner.SpawnPawnsAt(
+        var spawnedPawns = pieceSpawner.SpawnPawnsAt(
             boardView.transform,
             pawnPositions,
             data.tileSize,
@@ -65,7 +72,7 @@ public class BoardController : MonoBehaviour
         );
 
         pawnLogic = new PawnLogic();
-        pawnLogic.SetInitialPawns(pawns);
+        pawnLogic.SetInitialPawns(spawnedPawns);
 
         knightMoveLogic = new KnightMoveLogic(pawnLogic);
     }
@@ -77,6 +84,11 @@ public class BoardController : MonoBehaviour
 
         knightSelected = true;
         highlight.HighlightKnightMoves(knight.GridPosition);
+    }
+
+    public bool HasPawnAt(Vector2Int pos)
+    {
+        return pawnLogic.GetPawnAt(pos) != null;
     }
 
     public void OnTileClicked(ChessTileScript tile)

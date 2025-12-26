@@ -1,20 +1,46 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ExtraPawnButtonUI : MonoBehaviour
 {
+    [SerializeField] private Button button;
     [SerializeField] private TMP_Text label;
 
     void Update()
     {
-        int count = ExtraPawnManager.Instance.ExtraPawnCount;
-        label.text = $"Extra Pawn ({count})";
+        if (GameManager.Instance.State != GameState.Playing)
+        {
+            button.interactable = false;
+            return;
+        }
+        
+        if (GameManager.Instance.IsGameOver)
+        {
+            button.interactable = false;
+            return;
+        }
+
+        bool hasExtraPawn =
+            ExtraPawnManager.Instance.ExtraPawnCount > 0;
+
+        bool hasCaptureMove =
+            KnightMoveLogic.HasAnyCaptureMove(
+                BoardController.Instance.KnightPosition,
+                BoardController.Instance.BoardWidth,
+                BoardController.Instance.BoardHeight,
+                BoardController.Instance.HasPawnAt
+            );
+
+        button.interactable = hasExtraPawn && !hasCaptureMove;
     }
 
     public void OnClick()
     {
         if (GameManager.Instance.State != GameState.Playing)
             return;
+
         ExtraPawnManager.Instance.StartPlacingPawn();
+        BoardController.Instance.ShowEmptySquaresForPawn();
     }
 }

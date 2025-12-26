@@ -774,7 +774,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: HungryKnight.Runtime::ExtraPawnManager
   pawnPrefab: {fileID: 8524889235310240904, guid: 57990e9b8fa4b46d7842931935febd2c, type: 3}
-  boardRules: {fileID: 11400000, guid: 216f1f204ec194defabf8357ede6568b, type: 2}
 --- !u!1 &960894108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,6 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6197f9d1f7a420391cb59739709dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HungryKnight.Runtime::ExtraPawnButtonUI
+  button: {fileID: 1279226175}
   label: {fileID: 1617733620}
 --- !u!114 &1279226175
 MonoBehaviour:

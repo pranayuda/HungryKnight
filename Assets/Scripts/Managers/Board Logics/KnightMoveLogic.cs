@@ -31,4 +31,26 @@ public class KnightMoveLogic
         pawnLogic.TryCapturePawn(target);
         ChessTimer.Instance.OnPlayerMove();
     }
+
+    public static bool HasAnyCaptureMove(
+        Vector2Int knightPos,
+        int boardWidth,
+        int boardHeight,
+        System.Func<Vector2Int, bool> hasPawnAt
+    )
+    {
+        foreach (var move in KnightMoveRules.Moves)
+        {
+            Vector2Int target = knightPos + move;
+
+            if (target.x < 0 || target.x >= boardWidth ||
+                target.y < 0 || target.y >= boardHeight)
+                continue;
+
+            if (hasPawnAt(target))
+                return true;
+        }
+
+        return false;
+    }
 }
