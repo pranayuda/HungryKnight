@@ -121,4 +121,9 @@ public class BoardController : MonoBehaviour
         if (!pawnLogic.HasRemainingPawns())
             levelManager.OnLevelCleared();
     }
+
+    public void ShowEmptySquaresForPawn()
+    {
+        highlight.HighlightEmptySquares(pawnLogic, knight);
+    }
 }

@@ -31,6 +31,7 @@ public class ExtraPawnManager : MonoBehaviour
 
         isPlacingPawn = true;
         Debug.Log("PLACE EXTRA PAWN MODE");
+        BoardController.Instance.ShowEmptySquaresForPawn();
     }
 
     public void CancelPlacingPawn()

@@ -13,6 +13,8 @@ public class ExtraPawnButtonUI : MonoBehaviour
 
     public void OnClick()
     {
+        if (GameManager.Instance.State != GameState.Playing)
+            return;
         ExtraPawnManager.Instance.StartPlacingPawn();
     }
 }
