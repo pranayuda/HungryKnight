@@ -4,60 +4,61 @@ public class ExtraPawnManager : MonoBehaviour
 {
     public static ExtraPawnManager Instance { get; private set; }
 
-    [SerializeField] private GameObject pawnPrefab;
+    [SerializeField] GameObject pawnPrefab;
 
-    int extraPawnCount = 1;
-    bool isPlacingPawn = false;
+    public int ExtraPawnCount { get; private set; }
+    public bool IsPlacingPawn { get; private set; }
 
     void Awake()
     {
         Instance = this;
     }
 
-    public int ExtraPawnCount => extraPawnCount;
-    public bool IsPlacingPawn => isPlacingPawn;
+    public void ResetExtraPawns()
+    {
+        ExtraPawnCount = 1;
+        IsPlacingPawn = false;
+    }
 
-    // Dipanggil saat clear 5 board (nanti)
     public void AddExtraPawn(int amount = 1)
     {
-        extraPawnCount += amount;
-        Debug.Log($"Extra Pawn +{amount}, total = {extraPawnCount}");
+        ExtraPawnCount += amount;
+    }
+
+    public bool CanUseExtraPawn()
+    {
+        return ExtraPawnCount > 0;
     }
 
     public void StartPlacingPawn()
     {
-        if (extraPawnCount <= 0)
+        if (!CanUseExtraPawn())
             return;
 
-        isPlacingPawn = true;
-        Debug.Log("PLACE EXTRA PAWN MODE");
-        BoardController.Instance.ShowEmptySquaresForPawn();
-    }
-
-    public void CancelPlacingPawn()
-    {
-        isPlacingPawn = false;
+        IsPlacingPawn = true;
     }
 
     public PawnController PlacePawn(
         Transform parent,
-        Vector2Int gridPos,
+        Vector2Int pos,
         float tileSize,
         Vector2 boardOffset
     )
     {
-        if (!isPlacingPawn || extraPawnCount <= 0)
+        if (!IsPlacingPawn)
             return null;
 
         GameObject go = Instantiate(pawnPrefab, parent);
         PawnController pawn = go.GetComponent<PawnController>();
-        pawn.Init(gridPos, tileSize, boardOffset);
+        pawn.Init(pos, tileSize, boardOffset);
 
-        extraPawnCount--;
-        isPlacingPawn = false;
-
-        Debug.Log($"Pawn placed. Remaining: {extraPawnCount}");
-
+        ExtraPawnCount--;
+        IsPlacingPawn = false;
         return pawn;
+    }
+
+    public void CancelPlacingPawn()
+    {
+        IsPlacingPawn = false;
     }
 }
