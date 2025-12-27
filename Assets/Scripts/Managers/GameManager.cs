@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
 
-        // This is just for visual aesthetics in the scene.
+    private void Start() {
+         // This is just for visual aesthetics in the scene.
         BoardController.Instance.GenerateLevel(8, 8);
     }
 
