@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Manages extra pawns that players can place on the board during gameplay.
 public class ExtraPawnManager : MonoBehaviour
 {
     public static ExtraPawnManager Instance { get; private set; }
@@ -38,6 +39,7 @@ public class ExtraPawnManager : MonoBehaviour
         IsPlacingPawn = true;
     }
 
+    // Places a pawn at the specified position on the board
     public PawnController PlacePawn(
         Transform parent,
         Vector2Int pos,

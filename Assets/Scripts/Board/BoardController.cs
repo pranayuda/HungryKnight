@@ -2,18 +2,20 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Numerics;
 
+// Manages the chessboard, pieces, and player interactions on the board.
 public class BoardController : MonoBehaviour
 {
+    // Uses the singleton pattern for easier global access.
     public static BoardController Instance { get; private set; }
 
     [SerializeField] private BoardRules boardRules;
     [SerializeField] private BoardView boardView;
     [SerializeField] private PieceSpawner pieceSpawner;
-    [SerializeField] private LevelManager levelManager;
 
-    ChessTileScript[,] tiles;
+    ChessTileScript[,] tiles; // 2D array representing the chessboard tiles
     KnightController knight;
 
+    // Logic handler for pawns on the board, separating game logic from visual representation
     PawnLogic pawnLogic;
     KnightMoveLogic knightMoveLogic;
     BoardHighlightManager highlight;
@@ -29,10 +31,12 @@ public class BoardController : MonoBehaviour
         Instance = this;
     }
 
+    // Generates a new level with the specified board size and enemy count
     public void GenerateLevel(int boardSize, int enemyCount)
     {
         pawnLogic?.Clear();
 
+        // Generate the board by setting up tiles and pieces
         BoardRuntimeData data = new()
         {
             width = boardSize,
@@ -45,6 +49,7 @@ public class BoardController : MonoBehaviour
         tiles = boardView.Generate(data);
         highlight = new BoardHighlightManager(tiles);
 
+        // Generate puzzle layout and place pieces following the rules
         PuzzleGenerator generator =
             new(boardSize, boardSize, enemyCount);
 
@@ -57,6 +62,7 @@ public class BoardController : MonoBehaviour
         if (!success)
             return;
 
+        // Spawn pieces on the board
         knight = pieceSpawner.SpawnKnightAt(
             boardView.transform,
             knightPos,
@@ -71,19 +77,21 @@ public class BoardController : MonoBehaviour
             boardView.BoardOffset
         );
 
+        // Initialize game logic for pawns and knight movement
         pawnLogic = new PawnLogic();
         pawnLogic.SetInitialPawns(spawnedPawns);
 
         knightMoveLogic = new KnightMoveLogic(pawnLogic);
     }
 
+    // Handles the event when the knight piece is clicked by the player
     public void OnKnightClicked()
     {
         if (GameManager.Instance.State != GameState.Playing)
             return;
 
         knightSelected = true;
-        highlight.HighlightKnightMoves(knight.GridPosition);
+        highlight.HighlightKnightMoves(knight.GridPosition); // Highlight possible moves
     }
 
     public bool HasPawnAt(Vector2Int pos)
@@ -91,6 +99,7 @@ public class BoardController : MonoBehaviour
         return pawnLogic.GetPawnAt(pos) != null;
     }
 
+    // Handles the event when a tile on the board is clicked by the player
     public void OnTileClicked(ChessTileScript tile)
     {
         if (GameManager.Instance.State != GameState.Playing)
@@ -98,6 +107,7 @@ public class BoardController : MonoBehaviour
 
         Vector2Int pos = tile.gridPosition;
 
+        // Handle placing extra pawns if in that mode
         if (ExtraPawnManager.Instance.IsPlacingPawn)
         {
             if (!pawnLogic.IsOccupied(pos, knight))
@@ -117,6 +127,7 @@ public class BoardController : MonoBehaviour
             return;
         }
 
+        // Handle knight movement if a knight is selected
         if (!knightSelected)
             return;
 
@@ -127,13 +138,16 @@ public class BoardController : MonoBehaviour
             tiles.GetLength(1)
         );
 
+        // After moving, reset selection and highlights
         knightSelected = false;
         highlight.Clear();
 
+        // Check if all pawns have been cleared to trigger level completion
         if (!pawnLogic.HasRemainingPawns())
-            levelManager.OnLevelCleared();
+            LevelManager.Instance.OnLevelCleared();
     }
 
+    // Highlights empty squares for placing an extra pawn
     public void ShowEmptySquaresForPawn()
     {
         highlight.HighlightEmptySquares(pawnLogic, knight);

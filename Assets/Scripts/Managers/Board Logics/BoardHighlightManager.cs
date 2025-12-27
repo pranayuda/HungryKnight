@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Manages highlighting of tiles on the chessboard for possible moves and placements.
 public class BoardHighlightManager
 {
     private ChessTileScript[,] tiles;
@@ -16,10 +17,12 @@ public class BoardHighlightManager
                 tiles[x, y].HideIndicator();
     }
 
+    // Highlights possible knight moves from the given position
     public void HighlightKnightMoves(Vector2Int knightPos)
     {
         Clear();
 
+        // Iterate through all possible knight moves
         foreach (var move in KnightMoveRules.Moves)
         {
             Vector2Int target = knightPos + move;
@@ -29,6 +32,7 @@ public class BoardHighlightManager
         }
     }
 
+    // Highlights empty squares where a pawn can be placed
     public void HighlightEmptySquares(PawnLogic pawnLogic, KnightController knight)
     {
         Clear();
@@ -44,6 +48,7 @@ public class BoardHighlightManager
         }
     }
 
+    // Checks if the given position is within the bounds of the board
     private bool IsInside(Vector2Int pos)
     {
         return pos.x >= 0 && pos.y >= 0 &&

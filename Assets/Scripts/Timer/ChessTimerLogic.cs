@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Handles the core logic of the chess timer, including time decrement and increments.
+// Important to separate from MonoBehaviour for easier testing and logic management.
 public class ChessTimerLogic
 {
     public float TimeRemaining { get; private set; }
