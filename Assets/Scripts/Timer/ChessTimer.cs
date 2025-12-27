@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Manages the chess timer for players, including time tracking and increments.
 public class ChessTimer : MonoBehaviour
 {
     public static ChessTimer Instance { get; private set; }
@@ -32,6 +33,7 @@ public class ChessTimer : MonoBehaviour
         logic = new ChessTimerLogic(baseTime, increment);
     }
 
+    // Updates the timer each frame during gameplay
     void Update()
     {
         if (logic == null || GameManager.Instance.State != GameState.Playing)

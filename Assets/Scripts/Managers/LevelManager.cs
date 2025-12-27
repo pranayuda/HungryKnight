@@ -3,6 +3,7 @@ using UnityEngine;
 // Manages level progression, including board size and enemy count
 public class LevelManager : MonoBehaviour
 {
+    // Singleton instance for global access
     public static LevelManager Instance { get; private set; }
     int currentLevel;
     int currentEnemyCount;

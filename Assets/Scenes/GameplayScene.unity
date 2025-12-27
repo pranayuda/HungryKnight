@@ -3396,8 +3396,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "You must capture a piece with every jump.\n\nEliminate all targets to
-    unlock the next level. \n\nEvery capture grants a +1s time extension. \n\nEarn
-    a Bonus Pawn every 5 levels. \n\nPlace Bonus Pawn anywhere to bridge a gap."
+    unlock the next level. \n\nCapture and board clearance grant time extension.
+    \n\nEarn a Bonus Pawn every 5 levels. \n\nPlace Bonus Pawn anywhere to bridge
+    a gap."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

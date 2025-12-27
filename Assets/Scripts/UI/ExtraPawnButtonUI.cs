@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+// Manages the UI button for placing extra pawns during gameplay.
 public class ExtraPawnButtonUI : MonoBehaviour
 {
     [SerializeField] private Button button;

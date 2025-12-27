@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Controls the behavior and properties of a pawn piece on the chessboard.
 public class PawnController : MonoBehaviour
 {
     public Vector2Int GridPosition { get; private set; }
